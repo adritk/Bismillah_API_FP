@@ -3,7 +3,6 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const bearerToken = require('express-bearer-token')
 const port = 4000
-const { userRouter} = require('./router')
 
 const app = express();
 
@@ -18,7 +17,9 @@ app.get('/', (req,res) => {
 })
 
 
+const { userRouter, imageRouter} = require('./router')
 app.use('/users', userRouter)
+app.use('/image', imageRouter)
 
 
 app.listen(port, () => console.log('API IS ACTIVE AT PORT ' + port))
