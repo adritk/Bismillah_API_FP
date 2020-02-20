@@ -14,12 +14,12 @@ app.use(express.static('public'))
 
 app.get('/', (req,res) => {
     res.status(200).send(`<h1>API TOUR</h1>`)
-})
+})  
 
 
-const { userRouter, imageRouter} = require('./router')
+const { userRouter, productRouter} = require('./router')
 app.use('/users', userRouter)
-app.use('/image', imageRouter)
+app.use(productRouter)
 
 
 app.listen(port, () => console.log('API IS ACTIVE AT PORT ' + port))

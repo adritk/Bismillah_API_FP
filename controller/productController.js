@@ -3,7 +3,7 @@ const { uploader } = require('../helpers/uploader');
 const fs = require('fs');
 
 module.exports = {
-    uploadImage : (req,res) => {
+    addPackage : (req,res) => {
         console.log('uploader')
         try{
             const path = '/images'
@@ -16,9 +16,11 @@ module.exports = {
                 }
                 const {image} = req.files;
                 const imagePath = image ? path +'/' + image[0].filename : null
-                let data = {
-                    imagepath : imagePath
-                }
+                // let data = {
+                //     imagepath : imagePath
+                // }
+                const data = JSON.parse(req.body.data)
+                data.imagePath = imagePath
                 
                 let sql = 'insert into products set ?';
                 db.query(sql, data, (err,results) => {
@@ -37,7 +39,7 @@ module.exports = {
         }
     },
 
-    getAllImages : (req,res) => {
+    getAllPackage : (req,res) => {
         // console.log(req.query)
         let sql = `SELECT * FROM products;`
         db.query(sql, (err, results) => {
@@ -48,7 +50,17 @@ module.exports = {
         });
     },
 
-    createPackage : (req,res) => {
+    // addPackage : (req, res) => {
+    //     let sql = `INSERT INTO products SET ?;`
+    //     db.query(sql, req.body, (err, results) => {
+    //         if(err) {
+    //             return res.status(500).send(err)
+    //         }
+    //             res.status(200).send(results)
+    //     })
+    // },
+
+    editPackage : (req,res) => {
         // console.log(req.params.id)
         let sql = `UPDATE products SET ? WHERE id=${req.params.id}`
         db.query(sql, req.body, (err, results) => {
