@@ -17,8 +17,10 @@ app.get('/', (req,res) => {
 })  
 
 
-const { userRouter, productRouter} = require('./router')
+const { userRouter, productRouter, categoryRouter, packagecatRouter} = require('./router')
 app.use('/users', userRouter)
+app.use('/category', categoryRouter)
+app.use('/pacagakecat', packagecatRouter)
 app.use(productRouter)
 
 

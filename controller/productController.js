@@ -50,20 +50,40 @@ module.exports = {
         });
     },
 
-    // addPackage : (req, res) => {
-    //     let sql = `INSERT INTO products SET ?;`
-    //     db.query(sql, req.body, (err, results) => {
-    //         if(err) {
-    //             return res.status(500).send(err)
-    //         }
-    //             res.status(200).send(results)
-    //     })
-    // },
+    getTourDomestik : (req,res) => {
+        let sql = `select p.title, p.harga, p.description, p.location, p.duration, p.imagePath, c.category 
+        from products p
+        left join packagecat pc
+        on p.id = pc.productId
+        left join categories c
+        on c.id = categoryId
+        where c.category = "Tour Domestik";`
+
+        db.query(sql, (err, results) => {
+            if(err) {
+                return res.status(500).send(err)
+            }
+
+            res.status(200).send(results)
+        })
+    },
 
     editPackage : (req,res) => {
         // console.log(req.params.id)
-        let sql = `UPDATE products SET ? WHERE id=${req.params.id}`
+        let sql = `UPDATE products SET ? WHERE id=${db.escape(req.params.id)}`
         db.query(sql, req.body, (err, results) => {
+            if (err) {
+                return res.status(500).send(err)
+            }
+
+            res.status(200).send(results)
+        })
+    },
+
+    deletePakage : (req,res) => {
+        console.log(req.params.id)
+        let sql = `DELETE FROM products WHERE id=${db.escape(req.params.id)}`
+        db.query(sql, (err,results) => {
             if (err) {
                 return res.status(500).send(err)
             }

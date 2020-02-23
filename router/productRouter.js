@@ -3,8 +3,9 @@ const { productController } = require('../controller');
 const router = express.Router();
 
 router.post('/addpackage', productController.addPackage)
-router.put('/package/:id', productController.editPackage)
+router.put('/editpackage/:id', productController.editPackage)
 router.get('/getpackage', productController.getAllPackage)
-// router.post('/addpackage', productController.addPackage)
+router.get('/getpackagedomestik', productController.getTourDomestik)
+router.delete('/deletepackage/:id', productController.deletePakage)
 
 module.exports = router;
