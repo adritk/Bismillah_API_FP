@@ -51,13 +51,44 @@ module.exports = {
     },
 
     getTourDomestik : (req,res) => {
-        let sql = `select p.title, p.harga, p.description, p.location, p.duration, p.imagePath, c.category 
+        let sql = `select p.id,p.title, p.harga, p.description, p.location, p.duration, p.imagePath, c.category 
         from products p
         left join packagecat pc
         on p.id = pc.productId
         left join categories c
         on c.id = categoryId
         where c.category = "Tour Domestik";`
+
+        db.query(sql, (err, results) => {
+            if(err) {
+                return res.status(500).send(err)
+            }
+
+            res.status(200).send(results)
+        })
+    },
+
+    getTourDomestikById : (req,res) => {
+        let sql = `select * from products
+        where id = ${req.params.id};`
+
+        db.query(sql, (err, results) => {
+            if(err) {
+                return res.status(500).send(err)
+            }
+
+            res.status(200).send(results)
+        })
+    },
+
+    getTiketAttraction : (req,res) => {
+        let sql = `select p.title, p.harga, p.description, p.location, p.duration, p.imagePath, c.category 
+        from products p
+        left join packagecat pc
+        on p.id = pc.productId
+        left join categories c
+        on c.id = categoryId
+        where c.category = "Tiket Atraksi";`
 
         db.query(sql, (err, results) => {
             if(err) {

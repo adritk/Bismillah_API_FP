@@ -8,7 +8,8 @@ module.exports = {
         join products p
         on pc.productId = p.id
         join categories c
-        on pc.categoryId = c.id;`
+        on pc.categoryId = c.id
+        group by p.title;`
 
         db.query(sql, (err, results) => {
             if(err) {
