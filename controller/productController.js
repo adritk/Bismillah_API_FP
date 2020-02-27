@@ -68,7 +68,7 @@ module.exports = {
         })
     },
 
-    getTourDomestikById : (req,res) => {
+    getPackageById : (req,res) => {
         let sql = `select * from products
         where id = ${req.params.id};`
 
@@ -82,7 +82,7 @@ module.exports = {
     },
 
     getTiketAttraction : (req,res) => {
-        let sql = `select p.title, p.harga, p.description, p.location, p.duration, p.imagePath, c.category 
+        let sql = `select p.id,p.title, p.harga, p.description, p.location, p.duration, p.imagePath, c.category 
         from products p
         left join packagecat pc
         on p.id = pc.productId
