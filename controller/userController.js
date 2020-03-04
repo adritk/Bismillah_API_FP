@@ -42,41 +42,30 @@ module.exports = {
 
      login : (req,res) => {
         const {username, password} = req.body
-        console.log(req.body)
+        // console.log(req.body)
         let sql = `SELECT * FROM users WHERE username='${username}';`;
 
         db.query(sql, (err,results) => {
-            if(err) res.status(500).send(err)
-            if(results[0].password === Crypto.createHmac('sha256', 'uniqueKey').update(password).digest('hex')) {
-                console.log('password match')
-                if(results[0].verified === 0) {
-                    console.log(results[0].verified)
-                    console.log('not verified')
-                } else {
-                    if(results && results.length > 0) {
-                        let {id,username,password,email,role,verified} = results[0]
-                        const token = createJWTToken({
-                            id,
-                            username,
-                            password,
-                            email,
-                            role
-                        })
-                        console.log(token)
-                        return res.status(200).send({
-                            id,
-                            username, 
-                            email, 
-                            token,
-                            verified
-                        })
-                    } else {
-                        res.status(200).send('User or Password Invalid')
-                    }
-                }
-            } else {
-                return res.status(400).send('invalid')
+            if(err) return res.status(500).send({msg : 'database error'})
+            let passwordTrue = Crypto.createHmac('sha256', 'uniqueKey').update(password).digest('hex')
+
+            //jika username tidak ada di database  
+            // console.log('ini results' , results)
+            if (results.length === 0) {
+                return res.status(500).send({msg : 'gaada user'})
             }
+            
+            //jika password salah error dari backend
+            if (results[0].password !== passwordTrue) {
+                return res.status(500).send('invalid password')
+            }
+
+            //jika login berhasil buat token
+            const token = createJWTToken({...results[0]})
+
+            return res.status(200).send({
+                               ...results[0], token
+                            })
         })
     },
 
@@ -114,15 +103,15 @@ module.exports = {
                         return res.status(500).send({ message : err})
                     }
                     var {id,username,password,email,role,verified}=results[0]
-                    const token = createJWTToken({
-                        id,
-                        username,
-                        password,
-                        email,
-                        role
-                    })
-                    console.log('success')
-                    console.log(verified)
+                    // const token = createJWTToken({
+                    //     id,
+                    //     username,
+                    //     password,
+                    //     email,
+                    //     role
+                    // })
+                    // console.log('success')
+                    // console.log(verified)
 
                     return res.status(200).send({
                         id,
@@ -130,7 +119,7 @@ module.exports = {
                         password,
                         email,
                         role,
-                        token,
+                        // token,
                         verified
                     })
                 })
