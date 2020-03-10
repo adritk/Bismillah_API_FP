@@ -35,7 +35,7 @@ module.exports = {
             })
         }
         catch(err){
-            return res.status(500).send({message: 'error'})
+            return res.status(500).send({message: 'error broo'})
         }
     },
 
@@ -51,7 +51,7 @@ module.exports = {
     },
 
     getTourDomestik : (req,res) => {
-        let sql = `select p.id,p.title, p.harga, p.description, p.location, p.duration, p.imagePath, c.category 
+        let sql = `select p.id,p.title, p.harga, p.location, p.duration, p.imagePath, c.category 
         from products p
         left join packagecat pc
         on p.id = pc.productId
@@ -82,7 +82,7 @@ module.exports = {
     },
 
     getTiketAttraction : (req,res) => {
-        let sql = `select p.id,p.title, p.harga, p.description, p.location, p.duration, p.imagePath, c.category 
+        let sql = `select p.id,p.title, p.harga, p.location, p.duration, p.imagePath, c.category 
         from products p
         left join packagecat pc
         on p.id = pc.productId

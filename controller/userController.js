@@ -5,7 +5,7 @@ const transporter = require('../helpers/nodemailer')
 
 module.exports = {
     getUsers : (req,res) => {
-        let sql = `SELECT * FROM users;`
+        let sql = `SELECT * FROM users WHERE NOT role='admin';`
         db.query(sql, (err, results) => {
             if(err) {
                 res.status(500).send(err)
@@ -84,7 +84,7 @@ module.exports = {
                 res.status(500).send(err)
             }
             // console.log(results)
-            let verificationLink = `http://localhost:4000/verified?username=${username}&password=${hashPassword}`
+            let verificationLink = `http://localhost:3000/verified?username=${username}&password=${hashPassword}`
 
             let mailOptions = {
                 from : 'Admin <trikur30@gmail.com>',
@@ -103,16 +103,12 @@ module.exports = {
                         return res.status(500).send({ message : err})
                     }
                     var {id,username,password,email,role,verified}=results[0]
-                    // const token = createJWTToken({
+                    // const token = createJWT({
                     //     id,
                     //     username,
                     //     password,
                     //     email,
-                    //     role
                     // })
-                    // console.log('success')
-                    // console.log(verified)
-
                     return res.status(200).send({
                         id,
                         username,
