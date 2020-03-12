@@ -69,9 +69,34 @@ module.exports = {
         })
     },
 
+    // keepLogin : (req,res) => {
+    //     let sql = `SELECT * FROM users WHERE id = ${req.user.id}`
+    //     db.query(sql, (err, results) => {
+    //         if(err) {
+    //             return res.status(500).send(err)
+    //         }
+
+    //         const {id,username,password,email,role,verified}=results[0]
+    //         const token = createJWTTokend({
+    //             id,
+    //             username,
+    //             password,
+    //             email,
+    //         })
+    //         return res.status(200).send({
+    //             id,
+    //             username,
+    //             email,
+    //             token,
+    //             role,
+    //             verified
+    //         })
+    //     })
+    // },
+
     register : (req,res) => {
         var {username, password, email, role} = req.body;
-
+        
         let hashPassword = Crypto.createHmac('sha256', 'uniqueKey').update(password).digest('hex')
 
         let sqlInsert = `INSERT INTO users(username,password,email,role,verified) values('${username}', '${hashPassword}', '${email}', '${role}', 0);`;
@@ -83,6 +108,7 @@ module.exports = {
             if(err) {
                 res.status(500).send(err)
             }
+
             // console.log(results)
             let verificationLink = `http://localhost:3000/verified?username=${username}&password=${hashPassword}`
 

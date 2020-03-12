@@ -99,6 +99,42 @@ module.exports = {
         })
     },
 
+    getThemePark : (req,res) => {
+        let sql = `select p.id,p.title, p.harga, p.location, p.duration, p.imagePath, c.category 
+        from products p
+        left join packagecat pc
+        on p.id = pc.productId
+        left join categories c
+        on c.id = categoryId
+        where c.category = "Theme Park";`
+
+        db.query(sql, (err, results) => {
+            if(err) {
+                return res.status(500).send(err)
+            }
+
+            res.status(200).send(results)
+        })
+    },
+
+    getWaterPark : (req,res) => {
+        let sql = `select p.id,p.title, p.harga, p.location, p.duration, p.imagePath, c.category 
+        from products p
+        left join packagecat pc
+        on p.id = pc.productId
+        left join categories c
+        on c.id = categoryId
+        where c.category = "Water Park";`
+
+        db.query(sql, (err, results) => {
+            if(err) {
+                return res.status(500).send(err)
+            }
+
+            res.status(200).send(results)
+        })
+    },
+
     editPackage : (req,res) => {
         // console.log(req.params.id)
         let sql = `UPDATE products SET ? WHERE id=${db.escape(req.params.id)}`

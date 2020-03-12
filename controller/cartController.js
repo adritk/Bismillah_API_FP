@@ -2,10 +2,26 @@ const db = require('../database');
 
 module.exports = {
     getCart : (req,res) => {
-        let sql = `select p.title, c.quantity, c.total, c.date, c.id, c.userId from cart c
+        let sql = `select p.title, c.quantity, c.total, c.id, c.userId, c.departure, c.status from cart c
                     left join products p
                     on p.id = c.productId
                     WHERE userId=${req.params.id};`
+        db.query(sql, (err, results) => {
+            if(err) {
+                return res.status(500).send(err)
+            }
+
+                res.status(200).send(results)
+        })
+    },
+
+    getAllCart : (req,res) => {
+        let sql = `select p.title, c.quantity, c.total, c.id, c.userId, c.departure, c.status, u.username 
+                    from cart c
+                    left join products p
+                    on p.id = c.productId
+                    left join users u
+                    on u.id = c.userId;`
         db.query(sql, (err, results) => {
             if(err) {
                 return res.status(500).send(err)
@@ -26,8 +42,13 @@ module.exports = {
         })
     },
 
+    historyCart : (req,res) => {
+        let {productId, quantity, total, harga, departure, status} = req.body
+        console.log('dapat' + req.body)
+    },
+
     postAddToCart : (req,res) => {
-        let {productId, quantity, total, harga} = req.body
+        let {productId, quantity, total, harga, departure, status} = req.body
         // console.log(req.user.id)
         // console.log(productId)
         // console.log(quantity)
@@ -41,7 +62,7 @@ module.exports = {
             
             // console.table(results)
             if(results.length === 0) {
-                let sql = `INSERT INTO cart(productId, userId, quantity, total) VALUES (${productId}, ${req.user.id}, ${quantity}, ${total})`
+                let sql = `INSERT INTO cart(productId, userId, quantity, total, departure, status) VALUES (${productId}, ${req.user.id}, ${quantity}, ${total}, '${departure}', '${status}')`
                 db.query(sql, (err, results) => {
                     if(err) return res.status(500).send(err)
                     res.status(200).send(results)
@@ -71,4 +92,4 @@ module.exports = {
         //             })
         //         })
         //     }
-        // })
+        // })   
