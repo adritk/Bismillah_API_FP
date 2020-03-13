@@ -17,12 +17,14 @@ app.get('/', (req,res) => {
 })  
 
 
-const { userRouter, productRouter, categoryRouter, packagecatRouter, cartRouter} = require('./router')
+const { userRouter, productRouter, categoryRouter, packagecatRouter, cartRouter, checkoutRouter} = require('./router')
 app.use('/users', userRouter)
 app.use('/category', categoryRouter)
 app.use('/pacagakecat', packagecatRouter)
 app.use(productRouter)
 app.use(cartRouter)
+app.use(checkoutRouter)
+
 
 
 app.listen(port, () => console.log('API IS ACTIVE AT PORT ' + port))

@@ -2,7 +2,7 @@ const db = require('../database');
 
 module.exports = {
     getCart : (req,res) => {
-        let sql = `select p.title, c.quantity, c.total, c.id, c.userId, c.departure, c.status from cart c
+        let sql = `select p.title, p.id as productId,c.quantity, c.total, c.id, c.userId, c.departure, c.status from cart c
                     left join products p
                     on p.id = c.productId
                     WHERE userId=${req.params.id};`
@@ -16,7 +16,7 @@ module.exports = {
     },
 
     getAllCart : (req,res) => {
-        let sql = `select p.title, c.quantity, c.total, c.id, c.userId, c.departure, c.status, u.username 
+        let sql = `select p.title, p.id as productId,c.quantity, c.total, c.id, c.userId, c.departure, c.status, u.username 
                     from cart c
                     left join products p
                     on p.id = c.productId
