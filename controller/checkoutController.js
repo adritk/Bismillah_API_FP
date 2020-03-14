@@ -16,7 +16,12 @@ module.exports = {
     },
 
     getTransaksi : (req,res) => {
-        let sql =`SELECT * FROM transaction;`
+        let sql =`SELECT u.username, tr.tglTransaksi, p.title, tr.quantity, tr.total, tr.status, tr.departure FROM
+                    transaction tr
+                    left join products p
+                    on p.id = tr.productId
+                    left join users u
+                    on u.id = tr.userId;`
         db.query(sql, (err, results) => {
             if(err) {
                 return res.status(500).send(err)

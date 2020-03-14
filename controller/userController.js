@@ -69,30 +69,30 @@ module.exports = {
         })
     },
 
-    // keepLogin : (req,res) => {
-    //     let sql = `SELECT * FROM users WHERE id = ${req.user.id}`
-    //     db.query(sql, (err, results) => {
-    //         if(err) {
-    //             return res.status(500).send(err)
-    //         }
+    keepLogin : (req,res) => {
+        let sql = `SELECT * FROM users WHERE id = ${req.user.id}`
+        db.query(sql, (err, results) => {
+            if(err) {
+                return res.status(500).send(err)
+            }
 
-    //         const {id,username,password,email,role,verified}=results[0]
-    //         const token = createJWTTokend({
-    //             id,
-    //             username,
-    //             password,
-    //             email,
-    //         })
-    //         return res.status(200).send({
-    //             id,
-    //             username,
-    //             email,
-    //             token,
-    //             role,
-    //             verified
-    //         })
-    //     })
-    // },
+            const {id,username,password,email,role,verified}=results[0]
+            const token = createJWTToken({
+                id,
+                username,
+                password,
+                email,
+            })
+            return res.status(200).send({
+                id,
+                username,
+                email,
+                token,
+                role,
+                verified
+            })
+        })
+    },
 
     register : (req,res) => {
         var {username, password, email, role} = req.body;
