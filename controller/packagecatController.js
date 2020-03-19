@@ -61,5 +61,44 @@ module.exports = {
 
             res.status(200).send(results)
         })
+    },
+
+
+    getOneToFive : (req,res) => {
+        let sql =  `select 
+                    p.title, c.category
+                    from packagecat pc 
+                    join products p
+                    on pc.productId = p.id
+                    join categories c
+                    on pc.categoryId = c.id
+                    limit 5;`
+        db.query(sql, (err, results) => {
+            if(err) {
+                return res.status(500).send(err)
+            }
+
+            res.status(200).send(results)
+        })
+    },
+
+    getFiveToTen : (req,res) => {
+        let sql =  `select 
+                    p.title, c.category
+                    from packagecat pc 
+                    join products p
+                    on pc.productId = p.id
+                    join categories c
+                    on pc.categoryId = c.id
+                    LIMIT 5,5;`
+        db.query(sql, (err, results) => {
+            if(err) {
+                return res.status(500).send(err)
+            }
+
+            res.status(200).send(results)
+        })
     }
 }
+
+

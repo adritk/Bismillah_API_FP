@@ -65,5 +65,23 @@ module.exports = {
                 })
             })
         })
+    },
+
+    getHistoryUser : (req,res) => {
+        let sql = `SELECT tr.tglTransaksi, p.title, tr.quantity, tr.total, tr.status, tr.departure FROM
+                    transaction tr
+                    left join products p
+                    on p.id = tr.productId
+                    left join users u
+                    on u.id = tr.userId
+                    WHERE userId=${req.params.id};`
+        
+        db.query(sql, (err, results) => {
+            if(err) {
+                return res.status(500).send(err)
+            }
+
+            res.status(200).send(results)
+        })
     }
 }
