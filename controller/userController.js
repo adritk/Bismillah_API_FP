@@ -129,19 +129,12 @@ module.exports = {
                         return res.status(500).send({ message : err})
                     }
                     var {id,username,password,email,role,verified}=results[0]
-                    // const token = createJWT({
-                    //     id,
-                    //     username,
-                    //     password,
-                    //     email,
-                    // })
                     return res.status(200).send({
                         id,
                         username,
                         password,
                         email,
                         role,
-                        // token,
                         verified
                     })
                 })
